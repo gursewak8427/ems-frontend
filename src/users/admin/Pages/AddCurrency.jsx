@@ -441,7 +441,7 @@ const AddCurrency = () => {
                     <div className="ml-1">
                       <ButtonPrimary
                         title={"Cancel"}
-                        onclick={removeUpdate}
+                        onclick={null}
                         theme="danger"
                       />
                     </div>

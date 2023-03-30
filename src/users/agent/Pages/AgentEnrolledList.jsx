@@ -4,9 +4,6 @@ import ReactPaginate from "react-paginate";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import ButtonPrimary from "../../../common/Buttons/ButtonPrimary";
 import { authenticate, getToken } from "../../../helper/auth";
-import StudentPayment from "../../student/Pages/StudentPayment";
-import AgentDashboard from "../Screens/Dashboard/AgentDashboard";
-import AgentPayment from "./AgentPayment";
 
 const AgentEnrolledList = () => {
     const navigate = useNavigate()
@@ -221,14 +218,7 @@ const AgentEnrolledList = () => {
                                                     {
                                                         enrollDetails.enroll_status == "FEES_PENDING" ?
                                                             <div className={`mx-auto flex justify-center payBtn payBtn_${index}`}>
-                                                                <span className="first">
-                                                                    <StudentPayment index={index} enrollId={enrollDetails._id} state={state} setState={setState} />
-                                                                    {/* <ButtonPrimary title={"Pay"} onclick={_ => payNow(enrollDetails, index)} loading={false} /> */}
-                                                                </span>
-                                                                <span className="second">
-                                                                    <StudentPayment index={index} enrollId={enrollDetails._id} state={state} setState={setState} />
-                                                                    {/* <ButtonPrimary title={"Pay"} onclick={_ => payNow(enrollDetails, index)} loading={true} /> */}
-                                                                </span>
+
                                                             </div> : enrollDetails.enroll_status == "PENDING" || enrollDetails.enroll_status == "UNDER_VERIFICATION" ? <span>
                                                                 <ButtonPrimary title={"Pay"} onclick={() => alert("Your document's verification is pending!")} loading={false} />
                                                             </span> : "--"

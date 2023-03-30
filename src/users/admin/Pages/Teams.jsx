@@ -303,7 +303,7 @@ const Teams = () => {
                 <button
                   type="button"
                   className="btn bg-[red] w-100 ml-2 mt-4 text-white px-2 py-1 rounded mb-0"
-                  onClick={removeUpdate}
+                  onClick={null}
                 >
                   Cancel
                 </button>
@@ -378,7 +378,7 @@ const Teams = () => {
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <i
                                   class="fa-solid fa-trash cursor-pointer"
-                                  onClick={() => setDelete(user, index)}
+                                  onClick={() => null}
                                 ></i>
                               </td>
                             </tr>

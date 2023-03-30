@@ -8,7 +8,6 @@ import StudentDashboard from "../Screens/Dashboard/StudentDashboard";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../../../firebase";
 import ButtonPrimary from "../../../common/Buttons/ButtonPrimary";
-import StudentPayment from "./StudentPayment";
 const provider = new GoogleAuthProvider();
 
 const StudentEnrolled = (props) => {
@@ -322,14 +321,7 @@ const StudentEnrolled = (props) => {
                     {
                       enroll.enroll_status == "FEES_PENDING" ?
                         <div className={`mx-auto flex justify-center payBtn payBtn_${index}`}>
-                          <span className="first">
-                            <StudentPayment index={index} enrollId={enroll._id} state={state} setState={setState} />
-                            {/* <ButtonPrimary title={"Pay"} onclick={_ => payNow(enroll, index)} loading={false} /> */}
-                          </span>
-                          <span className="second">
-                            <StudentPayment index={index} enrollId={enroll._id} state={state} setState={setState} />
-                            {/* <ButtonPrimary title={"Pay"} onclick={_ => payNow(enroll, index)} loading={true} /> */}
-                          </span>
+                          
                         </div> : enroll.enroll_status == "PENDING" || enroll.enroll_status == "UNDER_VERIFICATION" ? <span>
                           <ButtonPrimary title={"Pay"} onclick={() => alert("Your document's verification is pending!")} loading={false} />
                         </span> : "--"
