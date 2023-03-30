@@ -1,0 +1,27 @@
+.country-banr {
+  background: url(../images/bag-img.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.upr-img h5 {
+  border-bottom: 2px solid #149449;
+}
+
+.detail-part img {
+  border: 2px solid #149449;
+  border-radius: 50%;
+  width: 75%;
+}
+
+.detail-part a {
+  background: #149449;
+  margin: 10px 0px 0px;
+  display: block;
+}
+
+.detail-part {
+  height: 500px;
+  overflow-y: auto;
+}

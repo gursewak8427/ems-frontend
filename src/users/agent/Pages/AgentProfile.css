@@ -1,0 +1,46 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+    background: #2a276b;    
+}
+.header h1{
+    font-size: 140%;
+    color: white;
+}
+.header .icon{
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70%;
+    cursor: pointer;
+    transition: .25s;
+    position: relative;
+    border: 2px solid black;
+}
+.header .icon.notification::before{
+    width: 15px;
+    height: 15px;
+    background: orange;
+    border: 2px solid black;
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: translate(25%, -25%);
+    border-radius: 50%;
+}
+
+.header .icon:hover{
+    background: black;
+    color: white;
+}
+label > .required{
+    color: red !important;
+    font-size: 120%;
+}
