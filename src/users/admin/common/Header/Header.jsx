@@ -90,6 +90,17 @@ const Header = () => {
       permission: "TEAMS"
     },
     {
+      label: "My Teams",
+      icon: (
+        <>
+          <i class="fa-solid fa-chart-line"></i>
+        </>
+      ),
+      path: "/d/admin/my-teams",
+      matchings: ["dashboard"],
+      permission: "MY_TEAMS"
+    },
+    {
       label: "Tasks",
       icon: (
         <>

@@ -78,6 +78,8 @@ import Roles from "./users/admin/Pages/Roles";
 import Employees from "./users/admin/Pages/Employees";
 import Teams from "./users/admin/Pages/Teams";
 import Tasks from "./users/admin/Pages/Tasks";
+import MyTeams from "./users/admin/Pages/MyTeams";
+import TeamTasks from "./users/admin/Pages/TeamTasks";
 
 // web-socket
 // import socketIOClient from "socket.io-client";
@@ -213,6 +215,32 @@ const App = () => {
                 permission_name={"student_list"}
               >
                 <Teams />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="my-teams"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <MyTeams />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="team-tasks/:teamId"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <TeamTasks />
               </ProtectedRoute>
             }
           />

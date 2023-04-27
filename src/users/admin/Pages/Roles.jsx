@@ -30,7 +30,7 @@ const Roles = () => {
     updatedId: null,
   });
 
-  const PERMISSIONS = ["ROLES", "EMPLOYEES", "SALARIES", "ATTENDANCE", "TEAMS", "TASKS"]
+  const PERMISSIONS = ["ROLES", "EMPLOYEES", "SALARIES", "ATTENDANCE", "TEAMS", "MY_TEAMS", "TASKS"]
 
   useEffect(() => {
     axios
@@ -325,7 +325,7 @@ const Roles = () => {
                                               <ButtonPrimary title={"Save"} onclick={async () => {
                                                 let response = await axios
                                                   .patch(process.env.REACT_APP_NODE_URL + "/users_roles/update_permissions", {
-                                                    roleId: state.list[activeRoleIndex]._id,   newPermissions: tempPermissions
+                                                    roleId: state.list[activeRoleIndex]._id, newPermissions: tempPermissions
                                                   })
 
                                                 if (response.data.status == "1") {

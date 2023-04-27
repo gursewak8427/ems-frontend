@@ -27,6 +27,7 @@ const Tasks = () => {
 
     isWait: true,
     submitProcessing: false,
+    list: [],
   });
 
   useEffect(() => {
@@ -35,9 +36,21 @@ const Tasks = () => {
       .get(process.env.REACT_APP_NODE_URL + "/tasks/", config)
       .then((teamResponse) => {
         if (teamResponse.data.status == "1") {
+          axios
+            .get(process.env.REACT_APP_NODE_URL + "/teams/", config)
+            .then((teamResponse1) => {
+              console.log(teamResponse1);
+              if (teamResponse1.data.status == "1") {
+                setState({
+                  ...state,
+                  teamsList: teamResponse1.data.details.teams,
+                  isWait: false,
+                  list: teamResponse.data.details.tasks,
+                });
+              }
+            });
           setState({
             ...state,
-            list: teamResponse.data.details.tasks,
             isWait: false
           });
         }
@@ -388,7 +401,25 @@ const Tasks = () => {
                                 {task?.employee_ids?.length || 0}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
-                                {task?.status || "--"}
+                                <select value={task.status} name="task_status" id="" onChange={async (e) => {
+                                  task.status = e.target.value;
+                                  let oldTasks = [...state.list]
+                                  oldTasks[index] = task;
+                                  await axios
+                                    .patch(process.env.REACT_APP_NODE_URL + `/tasks/updateTask/`, { task })
+                                  setState({
+                                    ...state,
+                                    list: oldTasks
+                                  })
+                                }}>
+                                  <option value="PENDING">Pending</option>
+                                  <option value="ASSIGNED">Assigned</option>
+                                  <option value="IN_PROCESS">In-Processing</option>
+                                  <option value="SUBMITTED">Submitted</option>
+                                  <option value="TESTING">Testing</option>
+                                  <option value="FAILED">FAILED</option>
+                                  <option value="COMPLETE">Complete</option>
+                                </select>
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <i
