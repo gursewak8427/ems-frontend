@@ -30,6 +30,7 @@ const TeamTasks = () => {
   const [files, setFiles] = useState(null)
 
   const [Modal, setModal] = useState(false);
+  const [activeTaskIndex, setActiveTaskIndex] = useState(false);
   const [Modal2, setModal2] = useState(false);
   const [Modal3, setModal3] = useState(false);
   const [History, setHistory] = useState({});
@@ -168,62 +169,14 @@ const TeamTasks = () => {
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <br />
                                 {
-                                  true ? // task.team_id.team_leader_ids.some(item => item.userId === state.userId) ?
-                                    <ButtonPrimary onclick={() => setModal(true)} title={`(${task?.employee_ids?.length || 0}) Manage`} /> :
+                                  true ? // task?.team_leader_ids?.some(item => item.user_id._id === state.userId) ?
+                                    <ButtonPrimary onclick={() => {
+                                      setActiveTaskIndex(index)
+                                      setModal(true)
+                                    }} title={`(${task?.employee_ids?.length || 0}) Manage`} /> :
                                     task?.employee_ids?.length || 0
                                 }
-                                {Modal && (
-                                  <div className="modal_cover filter_model">
-                                    <div className="modal_inner select-col-popup">
-                                      <div className="header_modal">
-                                        <ul>
-                                          {
-                                            // make checkboxes with labels for state?.teamDetail.employee_ids
-                                            state?.teamDetail?.employee_ids?.map((teamEmp, empIndex) => {
-                                              return (
-                                                <li key={empIndex}>
-                                                  <input
-                                                    type="checkbox"
-                                                    checked={task?.employee_ids?.some(item => item.user_id._id == teamEmp.user_id._id)}
-                                                    onChange={async () => {
-                                                      let oldEmpList = [...task?.employee_ids];
-                                                      if (oldEmpList.some(item => item.user_id._id == teamEmp.user_id._id)) {
-                                                        oldEmpList = oldEmpList.filter(emp => emp.user_id._id !== teamEmp.user_id._id);
-                                                      } else {
-                                                        oldEmpList.push(teamEmp);
-                                                      }
-                                                      task.employee_ids = oldEmpList;
-                                                      let oldTasks = [...state.list]
-                                                      oldTasks[index] = task;
-                                                      await axios
-                                                        .patch(process.env.REACT_APP_NODE_URL + `/tasks/updateTask/`, { task })
-                                                      setState({
-                                                        ...state,
-                                                        list: oldTasks
-                                                      })
 
-                                                    }}
-                                                  />
-                                                  <label
-                                                    htmlFor={teamEmp.user_id.email}
-                                                    className="ml-2"
-                                                  >
-                                                    {teamEmp.user_id.email}
-                                                  </label>
-                                                </li>
-                                              );
-                                            })
-                                          }
-                                        </ul>
-                                        <div className="my-2 w-full flex justify-end">
-                                          <ButtonPrimary theme="danger" title="Close" onclick={() => {
-                                            setModal(false)
-                                          }} />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
                                 <select value={task.status} name="task_status" id="" onChange={async (e) => {
@@ -407,6 +360,61 @@ const TeamTasks = () => {
                           );
                         })}
                       </tbody>
+                      {Modal && (
+                        <div className={`${Modal ? "modal_cover filter_model" : "modal_cover filter_model hidden"}`}>
+                          <div className="modal_inner select-col-popup">
+                            <div className="header_modal">
+                              <h1>Team Employees List : </h1>
+                              <br />
+                              <ul>
+                                {
+                                  // make checkboxes with labels for state?.teamDetail.employee_ids
+                                  state?.teamDetail?.employee_ids?.map((teamEmp, empIndex) => {
+                                    return (
+                                      <li key={empIndex}>
+                                        {/* {state.list[activeTaskIndex].task_name} */}
+                                        <input
+                                          type="checkbox"
+                                          checked={state.list[activeTaskIndex]?.employee_ids?.some(item => item.user_id._id === teamEmp.user_id._id)}
+                                          onChange={async () => {
+                                            let oldEmpList = [...state.list[activeTaskIndex]?.employee_ids];
+                                            if (oldEmpList.some(item => item.user_id._id == teamEmp.user_id._id)) {
+                                              oldEmpList = oldEmpList.filter(emp => emp.user_id._id !== teamEmp.user_id._id);
+                                            } else {
+                                              oldEmpList.push(teamEmp);
+                                            }
+                                            state.list[activeTaskIndex].employee_ids = oldEmpList;
+                                            let oldTasks = [...state.list]
+                                            oldTasks[activeTaskIndex] = state.list[activeTaskIndex];
+                                            await axios
+                                              .patch(process.env.REACT_APP_NODE_URL + `/tasks/updateTask/`, { task: state.list[activeTaskIndex] })
+                                            setState({
+                                              ...state,
+                                              list: oldTasks
+                                            })
+
+                                          }}
+                                        />
+                                        <label
+                                          htmlFor={teamEmp.user_id.email}
+                                          className="ml-2"
+                                        >
+                                          {teamEmp.user_id.email}
+                                        </label>
+                                      </li>
+                                    );
+                                  })
+                                }
+                              </ul>
+                              <div className="my-2 w-full flex justify-end">
+                                <ButtonPrimary theme="danger" title="Close" onclick={() => {
+                                  setModal(false)
+                                }} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </table>
 
                   </div>
