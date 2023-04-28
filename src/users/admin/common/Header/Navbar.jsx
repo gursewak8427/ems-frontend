@@ -20,11 +20,13 @@ const Navbar = ({ heading_title }) => {
   useEffect(() => {
     let token = getToken("admin");
     axios.post(process.env.REACT_APP_NODE_URL + "/users/getTodayAttendace", {}, config).then((response) => {
+      console.log({response})
       if (response.data.status == "0") {
         setAttendace({
           status: "0",
           message: "PENDING"
         });
+        console.log(Attendance)
       } else {
         setAttendace({
           status: "1",
@@ -110,7 +112,7 @@ const Navbar = ({ heading_title }) => {
               </li>
               <li className="nav-item mx-3 pe-2 d-flex align-items-center">
                 {
-                  Attendance?.status == "0" || (Attendance?.status == "1" && Attendance?.message == "PENDING") &&
+                  (Attendance?.status == "0" || Attendance?.message == "PENDING") &&
                   <button
                     onClick={markAttendance}
                     className="focus:outline-none text-left text-black bg-[skyblue] capitalize rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
