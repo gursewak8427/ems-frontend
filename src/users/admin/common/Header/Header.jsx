@@ -74,7 +74,7 @@ const Header = () => {
           <i class="fa-solid fa-chart-line"></i>
         </>
       ),
-      path: "/d/admin/tasks",
+      path: "/d/admin/attendance",
       matchings: ["dashboard"],
       permission: "ATTENDANCE"
     },

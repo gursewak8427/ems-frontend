@@ -191,7 +191,7 @@ export default function Header({ page }) {
                     Contact
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <button className="bg-[#059669] hover:bg-[#065f46] text-white py-2 px-4 rounded-full">
                     <Link
                       to={"/eligible"}
@@ -200,7 +200,7 @@ export default function Header({ page }) {
                       Apply Now
                     </Link>
                   </button>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>

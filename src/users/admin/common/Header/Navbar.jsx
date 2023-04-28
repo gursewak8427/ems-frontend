@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getToken, logoutHelper } from "../../../../helper/auth";
+import axios from "axios";
 
 const Navbar = ({ heading_title }) => {
   const navigate = useNavigate();
@@ -11,13 +12,33 @@ const Navbar = ({ heading_title }) => {
     isWaiting: true,
   });
 
+  const [Attendance, setAttendace] = useState(null);
+  const [AttendanceLoading, setAttendaceLoading] = useState(false);
+
+  const config = { headers: { "Authorization": `Bearer ${getToken("admin")}` } }
+
   useEffect(() => {
     let token = getToken("admin");
-    setState({
-      ...state,
-      adminToken: token,
-      isWaiting: false,
+    axios.post(process.env.REACT_APP_NODE_URL + "/users/getTodayAttendace", {}, config).then((response) => {
+      if (response.data.status == "0") {
+        setAttendace({
+          status: "0",
+          message: "PENDING"
+        });
+      } else {
+        setAttendace({
+          status: "1",
+          message: response.data.details.attendance.attendance
+        });
+      }
+
+      setState({
+        ...state,
+        adminToken: token,
+        isWaiting: false,
+      });
     });
+
   }, []);
 
   const toggleSidebar = () => {
@@ -28,6 +49,22 @@ const Navbar = ({ heading_title }) => {
     document.getElementById("overlay").classList.toggle("show");
     document.getElementsByTagName("main")[0].classList.toggle("hide-sidebar");
   };
+
+  const markAttendance = () => {
+    setAttendaceLoading(true)
+    axios.post(process.env.REACT_APP_NODE_URL + "/users/markAttendace", {}, config).then((response) => {
+      setAttendaceLoading(false)
+      if (response.data.status == "1") {
+        setAttendace({
+          status: "1",
+          message: "PRESENT"
+        });
+        alert("Marked successfully")
+      } else {
+        alert("Something went wrong")
+      }
+    });
+  }
 
   return (
     <>
@@ -71,6 +108,44 @@ const Navbar = ({ heading_title }) => {
                   </div>
                 </a>
               </li>
+              <li className="nav-item mx-3 pe-2 d-flex align-items-center">
+                {
+                  Attendance?.status == "0" || (Attendance?.status == "1" && Attendance?.message == "PENDING") &&
+                  <button
+                    onClick={markAttendance}
+                    className="focus:outline-none text-left text-black bg-[skyblue] capitalize rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
+                  >
+                    {
+                      AttendanceLoading ? "Please wait..." :
+                        "Mark Attendance"
+                    }
+                  </button>
+                }
+                {
+                  Attendance?.status == "1" && Attendance?.message == "PRESENT" &&
+                  <button
+                    className="focus:outline-none text-left text-[green] font-black uppercase rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
+                  >
+                    Present
+                  </button>
+                }
+                {
+                  Attendance?.status == "1" && Attendance?.message == "ABSENT" &&
+                  <button
+                    className="focus:outline-none text-left text-[red] font-black uppercase rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
+                  >
+                    Absent
+                  </button>
+                }
+                {
+                  Attendance?.status == "1" && Attendance?.message == "LATE" &&
+                  <button
+                    className="focus:outline-none text-left text-[orange] font-black uppercase rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
+                  >
+                    Late-In
+                  </button>
+                }
+              </li>
               <li className="nav-item notificationCount dropdown mx-3 pe-2 d-flex align-items-center">
                 <Link to={"/d/admin/notifications"}>
                   <span id="notificationCountSpan">0</span>
@@ -91,9 +166,8 @@ const Navbar = ({ heading_title }) => {
                   />
                 </div>
                 <div
-                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                    !showDropDown && "hidden"
-                  }`}
+                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${!showDropDown && "hidden"
+                    }`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="menu-button"

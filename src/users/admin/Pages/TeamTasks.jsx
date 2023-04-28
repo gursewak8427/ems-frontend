@@ -169,7 +169,7 @@ const TeamTasks = () => {
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <br />
                                 {
-                                  true ? // task?.team_leader_ids?.some(item => item.user_id._id === state.userId) ?
+                                  task?.team_leader_ids?.some(item => item.user_id._id === state.userId) ?
                                     <ButtonPrimary onclick={() => {
                                       setActiveTaskIndex(index)
                                       setModal(true)
@@ -201,83 +201,10 @@ const TeamTasks = () => {
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <ButtonPrimary title="Upload" onclick={() => {
+                                  setActiveTaskIndex(index)
                                   setModal2(true)
                                 }} />
-                                {Modal2 && (
-                                  <div className="modal_cover filter_model">
-                                    <div className="modal_inner select-col-popup">
-                                      <div className="header_modal">
-                                        <select name="submit-type" id="" value={submitType}
-                                          onChange={(e) => {
-                                            setSubmitType(e.target.value)
-                                          }}
-                                        >
-                                          <option value="FILES">Files</option>
-                                          <option value="LINKS">Links/Urls</option>
-                                        </select>
 
-                                        <div>
-                                          {
-                                            submitType === "FILES" &&
-                                            <div>
-                                              <input multiple onChange={handleFiles} className="my-2 rounded border-2 border-grey px-4 py-2" type="file" name="" id="" />
-                                              <div>
-                                                <p><b>Note: Upload Zip or Pdf Files</b></p>
-                                              </div>
-                                            </div>
-                                          }
-                                          {
-                                            submitType === "LINKS" &&
-                                            <div>
-                                              <input onChange={(e) => {
-                                                setState({
-                                                  ...state,
-                                                  submit_data: e.target.value
-                                                })
-                                              }} placeholder="http://link1.com/;http://link2.com" className="my-2 rounded border-2 border-grey px-4 py-2" type="text" id="data" />
-                                              <div>
-                                                <p><b>Note: Write multiple links with semicolon separated</b></p>
-                                              </div>
-                                            </div>
-                                          }
-                                        </div>
-
-                                        <div className="my-2 w-full flex justify-end">
-                                          <div className="mr-2">
-                                            <ButtonPrimary theme="danger" title="Cancel" onclick={() => {
-                                              setModal2(false)
-                                            }} />
-                                          </div>
-                                          <ButtonPrimary title="Submit" onclick={async () => {
-                                            const fd = new FormData();
-                                            if (submitType == "FILES") {
-                                              for (let index = 0; index < files.length; index++) {
-                                                const file = files[index];
-                                                fd.append("files", file)
-                                              }
-                                              fd.append("submit_data", "");
-                                            } else {
-                                              console.log(state.submit_data)
-                                              fd.append("submit_data", state.submit_data);
-                                            }
-                                            fd.append("taskId", task._id);
-                                            fd.append("submit_type", submitType);
-
-                                            setState({
-                                              ...state,
-                                              submitProcessing: true,
-                                            });
-                                            let response = await axios.post(
-                                              process.env.REACT_APP_NODE_URL + "/tasks/uploadData",
-                                              fd
-                                            );
-                                            setModal2(false)
-                                          }} />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>)
-                                }
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <ButtonPrimary title="History" onclick={async () => {
@@ -291,64 +218,6 @@ const TeamTasks = () => {
                                   })
                                   setModal3(true)
                                 }} />
-                                {Modal3 && (
-                                  <div className="modal_cover filter_model">
-                                    <div className="modal_inner select-col-popup">
-                                      <div className="header_modal" style={{ maxHeight: "40vh", overflow: "auto" }}>
-                                        <h1 className="font-black text-xl">History or Uploaded Data</h1>
-
-                                        {
-                                          History && History.data.map(history => {
-                                            return (
-                                              <div key={history._id}>
-                                                {history.submit_type == "LINKS" && <>
-                                                  {
-                                                    history.submit_data.map(myLink => {
-                                                      return (
-                                                        <div>
-                                                          <a className="p-2 border-[darkgrey] rounded hover:bg-[grey] border-2 my-2 block" href={myLink} target="_blank" rel="noopener noreferrer"><b className="font-black">Link: </b>{myLink}
-                                                            <br />
-                                                            <div className="flex justify-end">
-                                                              <span>{new Date(history.createdAt).toLocaleString()}</span>
-                                                            </div>
-                                                          </a>
-                                                        </div>
-                                                      )
-                                                    })
-                                                  }
-                                                </>}
-
-                                                {history.submit_type == "FILES" && <>
-                                                  {
-                                                    history.submit_data.map(myLink => {
-                                                      return (
-                                                        <div>
-                                                          <a className="p-2 border-[darkgrey] rounded hover:bg-[grey] border-2 my-2 block" href={History.baseUrl + myLink} target="_blank" rel="noopener noreferrer"><b className="font-black">File: </b>{History.baseUrl + myLink}
-                                                            <br />
-                                                            <div className="flex justify-end">
-                                                              <span>{new Date(history.createdAt).toLocaleString()}</span>
-                                                            </div>
-                                                          </a>
-                                                        </div>
-                                                      )
-                                                    })
-                                                  }
-                                                </>}
-                                              </div>
-                                            )
-                                          })
-                                        }
-
-
-                                      </div>
-                                      <div className="my-2 w-full flex justify-end">
-                                        <ButtonPrimary theme="danger" title="Close" onclick={() => {
-                                          setModal3(false)
-                                        }} />
-                                      </div>
-                                    </div>
-                                  </div>)
-                                }
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <i
@@ -415,6 +284,142 @@ const TeamTasks = () => {
                           </div>
                         </div>
                       )}
+                      {Modal2 && (
+                        <div className="modal_cover filter_model">
+                          <div className="modal_inner select-col-popup">
+                            <div className="header_modal">
+                              <select name="submit-type" id="" value={submitType}
+                                onChange={(e) => {
+                                  setSubmitType(e.target.value)
+                                }}
+                              >
+                                <option value="FILES">Files</option>
+                                <option value="LINKS">Links/Urls</option>
+                              </select>
+
+                              <div>
+                                {
+                                  submitType === "FILES" &&
+                                  <div>
+                                    <input multiple onChange={handleFiles} className="my-2 rounded border-2 border-grey px-4 py-2" type="file" name="" id="" />
+                                    <div>
+                                      <p><b>Note: Upload Zip or Pdf Files</b></p>
+                                    </div>
+                                  </div>
+                                }
+                                {
+                                  submitType === "LINKS" &&
+                                  <div>
+                                    <input onChange={(e) => {
+                                      setState({
+                                        ...state,
+                                        submit_data: e.target.value
+                                      })
+                                    }} placeholder="http://link1.com/;http://link2.com" className="my-2 rounded border-2 border-grey px-4 py-2" type="text" id="data" />
+                                    <div>
+                                      <p><b>Note: Write multiple links with semicolon separated</b></p>
+                                    </div>
+                                  </div>
+                                }
+                              </div>
+
+                              <div className="my-2 w-full flex justify-end">
+                                <div className="mr-2">
+                                  <ButtonPrimary theme="danger" title="Cancel" onclick={() => {
+                                    setModal2(false)
+                                  }} />
+                                </div>
+                                <ButtonPrimary title="Submit" onclick={async () => {
+                                  const fd = new FormData();
+                                  if (submitType == "FILES") {
+                                    for (let index = 0; index < files.length; index++) {
+                                      const file = files[index];
+                                      fd.append("files", file)
+                                    }
+                                    fd.append("submit_data", "");
+                                  } else {
+                                    console.log(state.submit_data)
+                                    fd.append("submit_data", state.submit_data);
+                                  }
+                                  fd.append("taskId", state.list[activeTaskIndex]._id);
+                                  fd.append("submit_type", submitType);
+
+                                  setState({
+                                    ...state,
+                                    submitProcessing: true,
+                                  });
+                                  let response = await axios.post(
+                                    process.env.REACT_APP_NODE_URL + "/tasks/uploadData",
+                                    fd,
+                                    config
+                                  );
+                                  setModal2(false)
+                                }} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>)
+                      }
+                      {Modal3 && (
+                        <div className="modal_cover filter_model">
+                          <div className="modal_inner select-col-popup">
+                            <div className="header_modal" style={{ maxHeight: "40vh", overflow: "auto" }}>
+                              <h1 className="font-black text-xl">History or Uploaded Data</h1>
+
+                              {
+                                History && History.data.map(history => {
+                                  return (
+                                    <div key={history._id}>
+                                      {history.submit_type == "LINKS" && <>
+                                        {
+                                          history.submit_data.map(myLink => {
+                                            return (
+                                              <div>
+                                                <a className="p-2 border-[darkgrey] rounded hover:bg-[grey] border-2 my-2 block" href={myLink} target="_blank" rel="noopener noreferrer"><b className="font-black">Link: </b>{myLink}
+                                                  <br />
+                                                  <div className="flex justify-end">
+                                                    <span>{history?.parent_id?.email}</span> &nbsp;||&nbsp;
+                                                    <span>{new Date(history.createdAt).toLocaleString()}</span>
+                                                  </div>
+                                                </a>
+                                              </div>
+                                            )
+                                          })
+                                        }
+                                      </>}
+
+                                      {history.submit_type == "FILES" && <>
+                                        {
+                                          history.submit_data.map(myLink => {
+                                            return (
+                                              <div>
+                                                <a className="p-2 border-[darkgrey] rounded hover:bg-[grey] border-2 my-2 block" href={History.baseUrl + myLink} target="_blank" rel="noopener noreferrer"><b className="font-black">File: </b>{History.baseUrl + myLink}
+                                                  <br />
+                                                  <div className="flex justify-end">
+                                                    <span>{history?.parent_id?.email}</span> &nbsp;||&nbsp;
+                                                    <span>{new Date(history.createdAt).toLocaleString()}</span>
+                                                  </div>
+                                                </a>
+                                              </div>
+                                            )
+                                          })
+                                        }
+                                      </>}
+                                    </div>
+                                  )
+                                })
+                              }
+
+
+                            </div>
+                            <div className="my-2 w-full flex justify-end">
+                              <ButtonPrimary theme="danger" title="Close" onclick={() => {
+                                setModal3(false)
+                              }} />
+                            </div>
+                          </div>
+                        </div>)
+                      }
                     </table>
 
                   </div>
