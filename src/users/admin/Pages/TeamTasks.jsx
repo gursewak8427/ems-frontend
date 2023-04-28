@@ -364,7 +364,7 @@ const TeamTasks = () => {
                         <div className={`${Modal ? "modal_cover filter_model" : "modal_cover filter_model hidden"}`}>
                           <div className="modal_inner select-col-popup">
                             <div className="header_modal">
-                              <h1>Team Employees List : </h1>
+                              <h1>Team Employees List 2 : </h1>
                               <br />
                               <ul>
                                 {
