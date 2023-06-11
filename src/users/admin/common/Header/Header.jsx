@@ -63,7 +63,7 @@ const Header = () => {
           <i class="fa-solid fa-chart-line"></i>
         </>
       ),
-      path: "/d/admin/tasks",
+      path: "/d/admin/salaries",
       matchings: ["dashboard"],
       permission: "SALARIES"
     },
@@ -77,6 +77,18 @@ const Header = () => {
       path: "/d/admin/attendance",
       matchings: ["dashboard"],
       permission: "ATTENDANCE"
+    },
+    {
+      label: "My Attendance",
+      icon: (
+        <>
+          <i class="fa-solid fa-chart-line"></i>
+        </>
+      ),
+      path: "/d/admin/u-attendance",
+      matchings: ["dashboard"],
+      permission: "USER_ATTENDANCE",
+      notForAdmin: true,
     },
     {
       label: "Teams",
@@ -98,7 +110,31 @@ const Header = () => {
       ),
       path: "/d/admin/my-teams",
       matchings: ["dashboard"],
-      permission: "MY_TEAMS"
+      permission: "MY_TEAMS",
+      notForAdmin: true,
+    },
+    {
+      label: "Leaves",
+      icon: (
+        <>
+          <i class="fa-solid fa-chart-line"></i>
+        </>
+      ),
+      path: "/d/admin/leaves-user",
+      matchings: ["leaves-user"],
+      permission: "LEAVES_USER",
+      notForAdmin: true,
+    },
+    {
+      label: "Leaves Management",
+      icon: (
+        <>
+          <i class="fa-solid fa-chart-line"></i>
+        </>
+      ),
+      path: "/d/admin/leaves",
+      matchings: ["leaves"],
+      permission: "LEAVES_MANAGEMENT"
     },
     {
       label: "Tasks",
@@ -248,6 +284,7 @@ const Header = () => {
                 </div>
               );
             } else {
+              if(singleItem.notForAdmin && role == "ADMIN") return;
               // single sidebar
               if (!permissions.includes(singleItem.permission) && singleItem.permission && role != "ADMIN") return;
 

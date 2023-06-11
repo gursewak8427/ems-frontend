@@ -56,6 +56,16 @@ const AdminAgentProfile = () => {
 
     const RemarkPopup = () => {
 
+        const [state, setState] = useState({
+            email: "",
+            phone: "",
+            name: "",
+        })
+
+        /*
+        Object me left side or key ka value dynamic ho.. variable [variable]
+        */
+
         const changeReasonType = (e) => {
             setState({
                 ...state,

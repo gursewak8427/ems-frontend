@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ButtonPrimary = ({ title, loading = false, onclick, type = "button", theme="primary" }) => {
+const ButtonPrimary = ({ title, loading = false, onclick, type = "button", theme = "primary" }) => {
     return (
-        <button className={`${theme == "danger" ? "bg-[red]" : "bg-gradient-primary"} inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white shadow-sm focus:ring-offset-2`} onClick={onclick} type={type}>
+        <button className={`${theme == "danger" ? "bg-[red]" : theme == "green" ? "bg-[green]" : "bg-gradient-primary"} inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white shadow-sm focus:ring-offset-2`} onClick={onclick} type={type}>
             {
                 loading ? <div>
                     <svg class="h-5 w-5 animate-spin" viewBox="3 3 18 18">

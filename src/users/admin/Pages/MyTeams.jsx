@@ -89,13 +89,13 @@ const MyTeams = () => {
                           </th>
                           <th
                             scope="col"
-                            class="capitalize text-sm font-medium text-gray-900 px-6 py-4 text-left font-bold"
+                            class="capitalize text-sm text-gray-900 px-6 py-4 text-left font-bold"
                           >
                             Employees
                           </th>
                           <th
                             scope="col"
-                            class="capitalize text-sm font-medium text-gray-900 px-6 py-4 text-left font-bold"
+                            class="capitalize text-sm text-gray-900 px-6 py-4 text-left font-bold"
                           >
                             Actions
                           </th>
@@ -109,11 +109,10 @@ const MyTeams = () => {
                                 {index + 1}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
-                                <Link to={`/d/admin/team-tasks/${team._id}`}>{team.team_name}</Link>
+                                <Link to={`/d/admin/team-tasks-2/${team._id}`}>{team.team_name}</Link>
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
-                                {
-                                  team?.team_leader_ids?.some(item => item.user_id._id == state.userId) ? <span className="text-[green]">Team Leader</span> : <span className="text-[orange]">Team member</span>}
+                                {team?.team_leader_ids?.some(item => item.user_id._id == state.userId) ? <span className="text-[green]">Team Leader</span> : <span className="text-[orange]">Team member</span>}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {team.project_manager_id.email}

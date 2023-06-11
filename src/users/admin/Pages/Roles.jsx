@@ -30,7 +30,7 @@ const Roles = () => {
     updatedId: null,
   });
 
-  const PERMISSIONS = ["ROLES", "EMPLOYEES", "SALARIES", "ATTENDANCE", "TEAMS", "MY_TEAMS", "TASKS"]
+  const PERMISSIONS = ["ROLES", "EMPLOYEES", "SALARIES", "ATTENDANCE", "TEAMS", "MY_TEAMS", "TASKS", "LEAVES_USER", "USER_ATTENDANCE"]
 
   useEffect(() => {
     axios

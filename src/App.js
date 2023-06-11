@@ -81,6 +81,11 @@ import Tasks from "./users/admin/Pages/Tasks";
 import MyTeams from "./users/admin/Pages/MyTeams";
 import TeamTasks from "./users/admin/Pages/TeamTasks";
 import Attendance from "./users/admin/Pages/Attendance";
+import TaskBoard from "./users/admin/Pages/TaskBoard";
+import LeavesUser from "./users/admin/Pages/LeavesUser";
+import LeavesManagement from "./users/admin/Pages/LeavesManagement";
+import UserAttendance from "./users/admin/Pages/UserAttendance";
+import Salaries from "./users/admin/Pages/Salaries";
 
 // web-socket
 // import socketIOClient from "socket.io-client";
@@ -134,6 +139,7 @@ const App = () => {
     <>
       <Notification />
       <Routes>
+        <Route path="/d/task-board" element={<TaskBoard />} />
         <Route path="/d/" element={<Login2 />} />
         <Route path="/d/adminlogin123" element={<Login2 />} />
         <Route path="/d/admin/forgot/:token" element={<Login2 />} />
@@ -233,6 +239,45 @@ const App = () => {
             }
           />
           <Route
+            path="leaves-user"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <LeavesUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="leaves"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <LeavesManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="salaries"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <Salaries />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="team-tasks/:teamId"
             element={
               <ProtectedRoute
@@ -242,6 +287,19 @@ const App = () => {
                 permission_name={"student_list"}
               >
                 <TeamTasks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="team-tasks-2/:teamId"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <TaskBoard />
               </ProtectedRoute>
             }
           />
@@ -259,6 +317,7 @@ const App = () => {
             }
           />
 
+
           <Route
             path="attendance"
             element={
@@ -269,6 +328,19 @@ const App = () => {
                 permission_name={"student_list"}
               >
                 <Attendance />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="u-attendance"
+            element={
+              <ProtectedRoute
+                token={state.tokenAdmin}
+                role={"admin"}
+                permissions={state.currentPermissions}
+                permission_name={"student_list"}
+              >
+                <UserAttendance />
               </ProtectedRoute>
             }
           />
