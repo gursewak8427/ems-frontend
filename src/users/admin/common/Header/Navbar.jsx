@@ -20,7 +20,7 @@ const Navbar = ({ heading_title }) => {
   useEffect(() => {
     let token = getToken("admin");
     axios.post(process.env.REACT_APP_NODE_URL + "/users/getTodayAttendace", {}, config).then((response) => {
-      console.log({response})
+      console.log({ response })
       if (response.data.status == "0") {
         setAttendace({
           status: "0",
@@ -124,11 +124,11 @@ const Navbar = ({ heading_title }) => {
                   </button>
                 }
                 {
-                  Attendance?.status == "1" && Attendance?.message == "PRESENT" &&
+                  Attendance?.status == "1" &&
                   <button
                     className="focus:outline-none text-left text-[green] font-black uppercase rounded flex justify-between items-center w-full px-5 py-3 space-x-14"
                   >
-                    Present
+                    {Attendance?.message}
                   </button>
                 }
                 {
